@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Container, TextField, Button, Box, Paper, CircularProgress, IconButton, Tooltip } from '@mui/material';
+import { AppBar, Toolbar, Typography, Container, TextField, Button, Box, Paper, CircularProgress, IconButton, Tooltip, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import config from './config';
@@ -10,13 +10,15 @@ function App() {
   const [portfolio, setPortfolio] = useState('');
   const [proposal, setProposal] = useState('');
   const [loading, setLoading] = useState(false);
+  const [style, setStyle] = useState('Formal');
+  const [size, setSize] = useState('Medium');
 
   const generateProposal = async () => {
     setLoading(true);
     const res = await fetch(`${config.API_URL}/api/generate`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ clientBrief: brief, portfolio }),
+      body: JSON.stringify({ clientBrief: brief, portfolio, style, size }),
     });
     const data = await res.json();
     setProposal(data.proposal);
@@ -71,6 +73,35 @@ function App() {
             value={portfolio}
             onChange={(e) => setPortfolio(e.target.value)}
           />
+          <Box sx={{ display: 'flex', gap: 3, mt: 3 }}>
+            <FormControl sx={{ minWidth: 160 }}>
+              <InputLabel id="style-label">Proposal Style</InputLabel>
+              <Select
+                labelId="style-label"
+                value={style}
+                label="Proposal Style"
+                onChange={e => setStyle(e.target.value)}
+              >
+                <MenuItem value="Formal">Formal</MenuItem>
+                <MenuItem value="Friendly">Friendly</MenuItem>
+                <MenuItem value="Concise">Concise</MenuItem>
+                <MenuItem value="Detailed">Detailed</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl sx={{ minWidth: 160 }}>
+              <InputLabel id="size-label">Proposal Size</InputLabel>
+              <Select
+                labelId="size-label"
+                value={size}
+                label="Proposal Size"
+                onChange={e => setSize(e.target.value)}
+              >
+                <MenuItem value="Short">Short</MenuItem>
+                <MenuItem value="Medium">Medium</MenuItem>
+                <MenuItem value="Long">Long</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
           <Box sx={{ mt: 3, display: 'flex', gap: 2 }}>
             <Button
               variant="contained"

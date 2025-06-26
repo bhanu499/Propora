@@ -14,7 +14,7 @@ const ollamaModel = process.env.OLLAMA_MODEL || '';
 const groqModel = process.env.GROQ_MODEL || '';
 const groqApiKey = process.env.GROQ_API_KEY || '';
 
-const systemPrompt = `You are a senior freelance software developer assistant. Generate a project proposal based on the user's portfolio and the client's brief. Keep the tone professional and convincing.`;
+const systemPrompt = `You are a senior freelance software developer assistant. Generate a project proposal based on the user's portfolio and the client's brief. Always follow any style and size instructions provided in the user prompt. Keep the tone professional and convincing.`;
 
 async function callLLM(prompt) {
   if (llmProvider === 'ollama') {
@@ -46,8 +46,8 @@ async function callLLM(prompt) {
 
 app.post('/api/generate', async (req, res) => {
   try {
-    const { clientBrief, portfolio } = req.body;
-    const prompt = `Generate a project proposal based on this client brief:\n"${clientBrief}"\nand this developer's portfolio:\n"${portfolio}"`;
+    const { clientBrief, portfolio, style, size } = req.body;
+    const prompt = `Generate a project proposal based on this client brief:\n"${clientBrief}"\nand this developer's portfolio:\n"${portfolio}"\n\nProposal Style: ${style || 'Formal'}\nProposal Size: ${size || 'Medium'}\n\nPlease follow the selected style and size when generating the proposal.`;
 
     const proposal = await callLLM(prompt);
     res.json({ proposal });
