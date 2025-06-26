@@ -1,0 +1,16 @@
+body {
+  margin: 0;
+  font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  background: #f5f6fa;
+}
+
+/* Remove old container and textarea styles, as MUI handles them */
+
+/* Add custom style for MUI Paper output */
+#proposal-output {
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  min-height: 100px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
