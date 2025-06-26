@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, Container, TextField, Button, Box, Paper, CircularProgress, IconButton, Tooltip } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import config from './config';
 import './App.css';
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
 
   const generateProposal = async () => {
     setLoading(true);
-    const res = await fetch('http://localhost:3001/api/generate', {
+    const res = await fetch(`${config.API_URL}/api/generate`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ clientBrief: brief, portfolio }),
